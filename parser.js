@@ -1,5 +1,4 @@
 "use strict"
-const csvParser = require('csv-parse');
 const fs = require('fs');
 
 class Person {
@@ -11,7 +10,16 @@ class Person {
     this.last_name = last_name;
     this.email = email;
     this.phone = phone;
-    this.created_at = created_at;
+    this.created_at = this._stringToDate(created_at);
+  }
+
+  _stringToDate (dateString) {
+    //2012-04-21T01:57:17-07:00
+    //console.log(dateString);
+    let date = new Date(dateString);
+    //console.log(Date.parse(dateString));
+    return date;
+    console.log(date.toISOString());
   }
 
   toString(){
@@ -27,13 +35,37 @@ class PersonParser {
 
   constructor(file) {
     this._file = file
-    this._people = this._filePeaopleToArray();
+    this._people = this._arrayOfStringToArrOfObj();
   }
 
-  _filePeaopleToArray () {
+  _filePeopleToArray () {
     let tampunganExistingData = fs.readFileSync(this._file, 'utf8');
     let arr = tampunganExistingData.split('\n')
+    arr.shift();
     return arr;
+  }
+
+  _arrayOfStringToArrOfObj (){
+    let arr = this._filePeopleToArray();
+    let tempArr = [];
+    let result = [];
+    let person = new Person();
+    let id, first_name, last_name, email, phone, created_at;
+    for (let str of arr) {
+      //dari string , split per ','
+      tempArr = str.split(',');
+      id = tempArr[0];
+      first_name = tempArr[1];
+      last_name = tempArr[2];
+      email = tempArr[3];
+      phone = tempArr[4];
+      created_at = tempArr[5];
+      person = new Person(id, first_name, last_name, email, phone, created_at)
+      result.push(person);
+
+    }
+    result.pop();
+    return result;
   }
 
   get people() {
@@ -41,20 +73,24 @@ class PersonParser {
   }
 
   addPerson(person) {
-    // read file
-    let tampunganExistingData = fs.readFileSync(this._file, 'utf8');
-    let number = tampunganExistingData.split('\n').length;
-    //console.log(number);
-    // write the existing file
-    let newData = `${tampunganExistingData}\n${number},${person.toString()}`
-    fs.writeFileSync(this._file, newData);
+    person.id = this._people.length;
+    this._people.push(person);
+  }
 
+  save(){
+    let result = 'id,first_name,last_name,email,phone,created_at\n'
+    for (let person in this._people) {
+      result+=this._people[person].id+',';
+      result+=this._people[person].first_name+',';
+      result+=this._people[person].last_name+',';
+      result+=this._people[person].email+',';
+      result+=this._people[person].phone+',';
+      result+=this._people[person].created_at+'\n';
+    }
+    //result +=  this._people.join('\n')
+    fs.writeFileSync(this._file, result);
   }
 
 }
 
 let parser = new PersonParser('people.csv')
-console.log(parser.people);
-//parser.addPerson(new Person(1, 'rasyid', 'hakim', 'rasyid.xyz@gmail.com', '0123123', 'datestring'));
-
-//console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
