@@ -18,14 +18,17 @@ class PersonParser {
     constructor(file) {
         this._file = file
         this._people = []
+        this._newPeople = ''
 
     }
 
     call() {
+        // import data file
         const fs = require('fs')
         let data = fs.readFileSync('people.csv', 'utf8').toString().split('\n')
             //console.log(data);
 
+        // array to object 
         for (let i = 0; i < data.length; i++) {
             let idx = data[i].split(',')
             console.log(idx[1])
@@ -39,7 +42,16 @@ class PersonParser {
     }
 
     addPerson(add) {
+        // push berdasarkan parameter
         this._people.push(add)
+        console.log(add.id)
+            //this._newPeople = '\n' + add.id + ',' + add.id + ','
+        this._newPeople = `\n ${add.id}, ${add.first_name}, ${add.last_name}, ${add.email}, ${add.phone}, ${add.created_at}`
+        return this._people // this._newPeople
+    }
+
+    save() {
+
     }
 
 }
@@ -48,8 +60,10 @@ let parser = new PersonParser('people.csv')
 
 parser.call()
 parser.addPerson(new Person(201, 'gogon', 'asdf', 'gogon@gmail.com', '123456789', new Date()))
+parser.save()
 
 console.log(parser.people)
+console.log(parser.people[11])
     // // input file 
     // const fs = require('fs')
     // let data = fs.readFileSync('people.csv', 'utf8').toString().split('\n')
