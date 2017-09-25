@@ -48,6 +48,6 @@ class PersonParser {
 }
 
 let parser = new PersonParser('people.csv')
-parser.addPerson(new Person());
+//parser.addPerson(new Person(1, 'rasyid', 'hakim', 'rasyid.xyz@gmail.com', '0123123', 'datestring'));
 
 //console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
