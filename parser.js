@@ -27,7 +27,13 @@ class PersonParser {
 
   constructor(file) {
     this._file = file
-    this._people = null
+    this._people = this._filePeaopleToArray();
+  }
+
+  _filePeaopleToArray () {
+    let tampunganExistingData = fs.readFileSync(this._file, 'utf8');
+    let arr = tampunganExistingData.split('\n')
+    return arr;
   }
 
   get people() {
@@ -48,6 +54,7 @@ class PersonParser {
 }
 
 let parser = new PersonParser('people.csv')
+console.log(parser.people);
 //parser.addPerson(new Person(1, 'rasyid', 'hakim', 'rasyid.xyz@gmail.com', '0123123', 'datestring'));
 
 //console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
