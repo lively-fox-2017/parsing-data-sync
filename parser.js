@@ -32,7 +32,7 @@ class PersonParser {
       arrHasil.push(arrData[i].split(','))
     }
 
-    for(var i = 1; i < arrHasil.length; i++) {
+    for(var i = 1; i < arrHasil.length - 1; i++) {
       arrObj.push(new Person(arrHasil[i][0], arrHasil[i][1], arrHasil[i][2], arrHasil[i][3], arrHasil[i][4], new Date(arrHasil[i][5])))
     }
 
@@ -48,10 +48,15 @@ class PersonParser {
   }
 
   save() {
-    var str = 'id,first_name,last_name,email,phone,created_at' + '\n'
+    var str = 'id,first_name,last_name,email,phone,created_at'
 
     for(var i = 0; i < this._people.length; i++) {
-      str = str + this._people[i].id + ',' + this._people[i].first_name + ',' + this._people[i].last_name + ',' + this._people[i].email + ',' + this._people[i].phone + ',' + this._people[i].created_at + '\n'
+      str = str + '\n' + this._people[i].id + ','
+      str = str + this._people[i].first_name + ','
+      str = str + this._people[i].last_name + ','
+      str = str + this._people[i].email + ','
+      str = str + this._people[i].phone + ','
+      str = str + this._people[i].created_at
     }
     var fs = require("fs")
     fs.writeFileSync(this._file, str) //menulis file
@@ -61,9 +66,9 @@ class PersonParser {
 
 var a = new PersonParser('people.csv')
 
-var udin = new Person('198','Blaze','Gould','lorem@Nullaeu.org','1-377-980-7889','2013-01-24T02:20:11-08:00')
+var udin = new Person('203','Blaze','Gould','lorem@Nullaeu.org','1-377-980-7889','2013-01-24T02:20:11-08:00')
 
 a.parser();
 console.log(a.people);
 a.addPerson(udin)
-a.save();
+console.log(a.save());
