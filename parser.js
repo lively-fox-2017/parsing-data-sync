@@ -1,5 +1,6 @@
 "use strict"
 const fs = require('fs');
+const faker = require('faker');
 
 class Person {
   // Look at the above CSV file
@@ -37,18 +38,36 @@ class PersonParser {
 
   addPerson(person) {
     person.id = parseInt(this._people[this._people.length - 1].id) + 1;
-    let str = person.id + ',' + person.first_name + ',' + person.last_name + ',' + person.email + ',' + person.phone + ',' + person.created_at.toISOString();
-    this._people.push(str);
-    str = '\r\n' + str;
-    fs.appendFileSync(this._file, str);
+    this._people.push(person);
+  }
+
+  save() {
+    let str = '';
+    this._people.forEach((obj) => {
+      for (var key in obj) {
+        if (key == 'created_at')
+          str += obj[key].toISOString();
+        else
+          str += obj[key];
+        str += ',';
+      }
+      str = str.slice(0, -1);
+      str += '\r\n';
+    });
+    str = str.slice(0, -4);
+    fs.writeFileSync(this._file, str);
   }
 }
 
-let parser = new PersonParser('./people.csv')
+let parser = new PersonParser('./people2.csv')
 parser.parseFile();
 console.log(require('util').inspect(parser.people, {
   maxArrayLength: null
 }));
 console.log(`There are ${parser.people.length} people in the file '${parser._file}'.`)
-parser.addPerson(new Person(201, 'Saptanto', 'Sindu', 'Saptanto.sindu@gmail.com', '08999175696', '2012-02-22T10:09:03-08:00'))
+parser.addPerson(new Person(faker.random.number(), faker.name.firstName(), faker.name.lastName(), faker.internet.email(), faker.phone.phoneNumberFormat(), faker.date.recent()));
+parser.save();
 console.log(`There are ${parser.people.length} people in the file '${parser._file}'.`)
+console.log(require('util').inspect(parser.people, {
+  maxArrayLength: null
+}));
