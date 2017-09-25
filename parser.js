@@ -42,10 +42,6 @@ class PersonParser {
         this._people.push(add)
     }
 
-    save() {
-
-    }
-
 }
 
 let parser = new PersonParser('people.csv')
@@ -53,10 +49,11 @@ let parser = new PersonParser('people.csv')
 parser.call()
 parser.addPerson(new Person(201, 'gogon', 'asdf', 'gogon@gmail.com', '123456789', new Date()))
 
-// // input file 
-// const fs = require('fs')
-// let data = fs.readFileSync('people.csv', 'utf8').toString().split('\n')
-// console.log(data.length);
+console.log(parser.people)
+    // // input file 
+    // const fs = require('fs')
+    // let data = fs.readFileSync('people.csv', 'utf8').toString().split('\n')
+    // console.log(data.length);
 
 // // to array 2d
 // let dataF = []
