@@ -25,7 +25,7 @@ class PersonParser {
 
     // console.log(this._file);
     let parsing = fs.readFileSync(this._file).toString().split('\n');
-    for (var c = 1; c < parsing.length; c++) {
+    for (var c = 1; c < parsing.length-1; c++) {
       let index = parsing[c].split(',');
       let hasil = new Person(index[0], index[1], index[2], index[3], index[4], new Date(index[5]));
       this._people.push(hasil);
@@ -40,7 +40,7 @@ class PersonParser {
     //   // console.log(hasil);
     //   hasilParse.push(hasil);
     // }
-    return this._data;
+    return this._people;
   }
   get people() {
     return this._people;
@@ -50,7 +50,7 @@ class PersonParser {
     this._people.push(databaru);
   }
   save() {
-    // console.log(this.people.length);
+    // console.log(this.people[200]);
     var tampung = "id,first_name,last_name,email,phone,created_at,\n";
 
     this.people.forEach(function (element) {
@@ -63,7 +63,7 @@ class PersonParser {
       tampung += '\n';
     }, this);
     // console.log(tampung);
-    fs.writeFile("coba.txt", tampung);
+    fs.writeFile('people.csv', tampung);
   }
 
 }
@@ -77,7 +77,7 @@ let parser = new PersonParser('people.csv');
 // console.log(parser.people);
 // parser.people;
 // console.log(parser.people[0].pembuatan.getDate());
-parser.addPerson(new Person(201, 'Agustinus', 'Saja', 'vbagustinus@gmail.com', '085700009776', '2017-06-10T03:53:40-07:00'))
+parser.addPerson(new Person(201, 'Agustinus', 'Saja', 'vbagustinus@gmail.com', '085700009776', new Date()))
 parser.save();
 // console.log(parser.people);
 // console.log(`There are ${parser.people.email} people in the file '${parser._file}'.`)
