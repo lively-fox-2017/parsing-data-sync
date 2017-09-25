@@ -11,19 +11,6 @@ class Person {
     this.phone=phone,
     this.created_at=created_at
   }
-  //method untuk membuat objek
-  get person(){
-    let objectperson={
-      id:this.id,
-      first_name:this.first_name,
-      last_name:this.last_name,
-      email:this.email,
-      phone:this.phone,
-      created_at:this.created_at
-      //id,first_name,last_name,email,phone,created_at
-    }
-    return objectperson;
-  }
 }
 
 class PersonParser {
@@ -37,7 +24,7 @@ class PersonParser {
     let arr=fs.readFileSync(file,'utf8').split(/\n/);
     return this._people=arr.map(data=>{
       let temp=data.split(','),person=new Person(temp[0],temp[1],temp[2],temp[3],temp[4],Date(temp[5]))
-      return person.person;
+      return person;
     })
   }
 
