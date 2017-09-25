@@ -85,7 +85,7 @@ class PersonParser {
       result+=this._people[person].last_name+',';
       result+=this._people[person].email+',';
       result+=this._people[person].phone+',';
-      result+=this._people[person].created_at+'\n';
+      result+=this._people[person].created_at.toISOString()+'\n';
     }
     //result +=  this._people.join('\n')
     fs.writeFileSync(this._file, result);
@@ -94,3 +94,10 @@ class PersonParser {
 }
 
 let parser = new PersonParser('people.csv')
+//let asd = new Date();
+
+parser.save()
+//parser.addPerson(new Person(1, 'rasyid', 'hakim', 'rasyid.xyz@gmail.com', '0123123', 'datestring'));
+//console.log(parser.people);
+
+//console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
