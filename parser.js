@@ -102,7 +102,7 @@ class PersonParser {
         faker.name.firstName(),
         faker.name.lastName(),
         faker.internet.email(),
-        faker.phone.phoneNumber(),
+        faker.phone.phoneNumberFormat(2),
         date.toISOString()
 
       ];
