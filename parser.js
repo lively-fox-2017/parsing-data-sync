@@ -1,4 +1,5 @@
 "use strict"
+var fs = require('fs')
 
 class Person {
     // Look at the above CSV file
@@ -19,19 +20,17 @@ class PersonParser {
         this._file = file
         this._people = []
         this._newPeople = ''
-
     }
 
     call() {
         // import data file
-        const fs = require('fs')
         let data = fs.readFileSync('people.csv', 'utf8').toString().split('\n')
             //console.log(data);
 
-        // array to object 
+        // array to object
         for (let i = 0; i < data.length; i++) {
             let idx = data[i].split(',')
-            console.log(idx[1])
+                //console.log(idx[1])
             let valProp = new Person(idx[0], idx[1], idx[2], idx[3], idx[4], new Date(idx[5]))
             this._people.push(valProp)
         }
@@ -43,15 +42,25 @@ class PersonParser {
 
     addPerson(add) {
         // push berdasarkan parameter
+        //let person =  new Person(add.id, add.first_name, add.last_name, add.email, add.phone, add.created_at)
+        // this._newPeople = '\n' + add.id + ',' + add.first_name + ',' + add.last_name + ',' + add.email + ',' + add.phone + ',' + add.created_at
+        // return this._People
+
         this._people.push(add)
-        console.log(add.id)
-            //this._newPeople = '\n' + add.id + ',' + add.id + ','
-        this._newPeople = `\n ${add.id}, ${add.first_name}, ${add.last_name}, ${add.email}, ${add.phone}, ${add.created_at}`
-        return this._people // this._newPeople
+        this._newPeople = '\n' + add.id + ',' + add.first_name + ',' + add.last_name + ',' + add.email + ',' + add.phone + ',' + add.created_at
+        return this._people;
     }
 
     save() {
+        // fs.appendFileSync
+        //console.log(this._newPeople)
+        // console.log((JSON.stringify(this._newPeople)).toString())
+        // fs.writeFileSync('/Users/aditreza/Documents/hacktiv8/fase1/week2/1-senin/parsing-data-sync/people.csv', 'test', 'utf8')
 
+        //fs.appendFileSync('people.csv', this._newPeople, 'utf8') <== 
+
+
+        // next ==> lib Fake.js
     }
 
 }
@@ -59,34 +68,9 @@ class PersonParser {
 let parser = new PersonParser('people.csv')
 
 parser.call()
+    //parser.people
 parser.addPerson(new Person(201, 'gogon', 'asdf', 'gogon@gmail.com', '123456789', new Date()))
-parser.save()
+    //parser.save()
 
 console.log(parser.people)
-console.log(parser.people[11])
-    // // input file 
-    // const fs = require('fs')
-    // let data = fs.readFileSync('people.csv', 'utf8').toString().split('\n')
-    // console.log(data.length);
-
-// // to array 2d
-// let dataF = []
-// for (var i = 0; i < data.length; i++) {
-//     dataF.push(data[i].split(','))
-// }
-
-// // to objek
-// let dataFixed = []
-// for (let r = 1; r < dataF.length; r++) {
-//     let obj = {}
-//     for (let c = 0; c < dataF[0].length; c++) {
-//         //console.log(dataF[r][c])
-//         obj[dataF[0][c]] = dataF[r][c]
-//     }
-//     dataFixed.push(obj)
-// }
-
-//console.log(dataF)
-//console.log(dataFixed)
-
-//console.log(`There are ${parser.people.size} people in the file '${parser.file}'.`)
+    //console.log(parser.save())
