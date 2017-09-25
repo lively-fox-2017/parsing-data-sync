@@ -65,6 +65,5 @@ var udin = new Person('198','Blaze','Gould','lorem@Nullaeu.org','1-377-980-7889'
 
 a.parser();
 console.log(a.people);
-//a.addPerson(udin)
-//a.addPerson(udin)
-//a.save();
+a.addPerson(udin)
+a.save();
